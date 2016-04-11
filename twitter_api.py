@@ -44,7 +44,7 @@ def setup_oauth():
 
 	return token, secret
 
-	
+
 
 def get_oauth():
     oauth = OAuth1(CONSUMER_KEY,
@@ -52,9 +52,9 @@ def get_oauth():
                 resource_owner_key=OAUTH_TOKEN,
                 resource_owner_secret=OAUTH_TOKEN_SECRET)
     return oauth
-	
-	
-	
+
+
+
 if __name__ == "__main__":
     if not OAUTH_TOKEN:
         token, secret = setup_oauth()
@@ -63,25 +63,15 @@ if __name__ == "__main__":
         OAUTH_TOKEN_SECRET = secret
         OAUTH_TOKEN = token
         oauth = get_oauth()
-        r = requests.get(url="https://api.twitter.com/1.1/statuses/mentions_timeline.json", auth=oauth)
-        print r.json()
+        #r = requests.get(url="https://api.twitter.com/1.1/statuses/mentions_timeline.json", auth=oauth)
+        r = requests.get(url="https://api.twitter.com/1.1/statuses/user_timeline.json", auth=oauth)
+        #print len(r.json())
+        api_json = r.json()
+        for i in range(len(r.json())):
+            api_json_curr = api_json[i]
+            #print (api_json.keys())
+            print (api_json_curr['created_at'] + ": " + api_json_curr['user']['screen_name'] + ": " + api_json_curr['text'])
     else:
         oauth = get_oauth()
-        r = requests.get(url="https://api.twitter.com/1.1/statuses/mentions_timeline.json", auth=oauth)
+        r = requests.get(url="https://api.twitter.com/1.1/statuses/user_timeline.json", auth=oauth)
         print r.json()
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-	
-
-
-
-
-
